@@ -1,11 +1,10 @@
+import Body from "./components/Body"
 
 function App() {
   
 
   return (
-    <>
-      <div className="bg-blue-200">Hello</div>
-    </>
+    <Body />
   )
 }
 
