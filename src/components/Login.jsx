@@ -1,8 +1,18 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
-
+import { checkValidData } from "../utilts/validations";
 const Login = () => {
     const [isSignIn, setIsSignIn] = useState(true);
+    const [errorMessage, setErrorMessage] = useState(null);
+
+    const email = useRef(null);
+    const password = useRef(null);
+
+    const handleButtonClick = () => {
+        //validating the form data.
+       const message = checkValidData(email.current.value, password.current.value);
+       setErrorMessage(message);
+    };
 
     const toggleSignInForm = () => {
         setIsSignIn(!isSignIn);
@@ -18,7 +28,10 @@ const Login = () => {
                     alt="background"
                 />
             </div>
-            <form className="text-white absolute p-12 w-3/12 bg-black/80 rounded-xl border-0 my-36 mx-auto right-0 left-0 ">
+            <form
+                onSubmit={(e) => e.preventDefault()}
+                className="text-white absolute p-12 w-3/12 bg-black/80 rounded-xl border-0 my-36 mx-auto right-0 left-0 "
+            >
                 <h1 className="font-bold text-3xl py-4">
                     {isSignIn ? "Sign In" : "Sign Up"}
                 </h1>
@@ -30,16 +43,22 @@ const Login = () => {
                     />
                 )}
                 <input
+                    ref={email}
                     type="text"
                     placeholder="Email"
                     className="p-2 my-2 w-full bg-gray-700/70 border-[0.5px] border-gray-400 rounded-sm"
                 />
                 <input
+                    ref={password}
                     type="password"
                     placeholder="Password"
                     className="p-2 my-2 w-full bg-gray-700/70 border-[0.5px] border-gray-400 rounded-sm"
                 />
-                <button className="p-2 my-4 bg-[#d9232e] w-full rounded-sm cursor-pointer">
+                <p className="text-red-600 text-lg py-2">{errorMessage}</p>
+                <button
+                    className="p-2 my-4 bg-[#d9232e] w-full rounded-sm cursor-pointer"
+                    onClick={() => handleButtonClick()}
+                >
                     {isSignIn ? "Sign In" : "Sign UP"}
                 </button>
                 <p
