@@ -9,6 +9,7 @@ import {
 import { auth } from "../utilts/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utilts/userSlice";
+import { USER_IMG } from "../utilts/constants";
 
 const Login = () => {
     const [isSignIn, setIsSignIn] = useState(true);
@@ -45,23 +46,24 @@ const Login = () => {
                     const user = userCredential.user;
                     updateProfile(user, {
                         displayName: name.current.value,
-                        photoURL:
-                            "https://avatars.githubusercontent.com/u/100094915?v=4",
+                        photoURL: USER_IMG,
                     })
                         .then(() => {
                             // Profile updated!
-                            const { uid, email, displayName, photoURL } = auth.currentUser;
-                                            dispatch(
-                                                addUser({
-                                                    uid: uid,
-                                                    email: email,
-                                                    displayName: displayName,
-                                                    photoURL: photoURL,
-                                                }))
-                           })
+                            const { uid, email, displayName, photoURL } =
+                                auth.currentUser;
+                            dispatch(
+                                addUser({
+                                    uid: uid,
+                                    email: email,
+                                    displayName: displayName,
+                                    photoURL: photoURL,
+                                })
+                            );
+                        })
                         .catch((error) => {
                             // An error occurred
-                            dispatch()
+                            dispatch();
                             setErrorMessage(error.message);
                         });
                 })
@@ -79,7 +81,7 @@ const Login = () => {
             )
                 .then((userCredential) => {
                     // Signed in
-                    const user = userCredential.user;
+                    userCredential.user;
                 })
                 .catch((error) => {
                     const errorCode = error.code;
