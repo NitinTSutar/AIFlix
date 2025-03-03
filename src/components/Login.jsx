@@ -6,10 +6,12 @@ import {
     signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../utilts/firebase";
+import { useNavigate } from "react-router";
 
 const Login = () => {
     const [isSignIn, setIsSignIn] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
+    const Navigate = useNavigate();
 
     const email = useRef(null);
     const password = useRef(null);
@@ -35,6 +37,7 @@ const Login = () => {
                     // Signed up
                     const user = userCredential.user;
                     console.log(user);
+                    Navigate("/browse");
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -52,6 +55,7 @@ const Login = () => {
                     // Signed in
                     const user = userCredential.user;
                     console.log(user)
+                    Navigate("/browse");
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -77,7 +81,7 @@ const Login = () => {
             </div>
             <form
                 onSubmit={(e) => e.preventDefault()}
-                className="text-white absolute p-12 w-3/12 bg-black/80 rounded-xl border-0 my-36 mx-auto right-0 left-0 "
+                className="text-white absolute p-12 w-[450px] bg-black/80 rounded-xl border-0 my-36 mx-auto right-0 left-0 "
             >
                 <h1 className="font-bold text-3xl py-4">
                     {isSignIn ? "Sign In" : "Sign Up"}
