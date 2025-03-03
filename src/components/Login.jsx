@@ -4,20 +4,29 @@ import { checkValidData } from "../utilts/validations";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    updateProfile,
 } from "firebase/auth";
 import { auth } from "../utilts/firebase";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utilts/userSlice";
 
 const Login = () => {
     const [isSignIn, setIsSignIn] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+    const name = useRef(null);
     const email = useRef(null);
     const password = useRef(null);
 
     const handleButtonClick = () => {
-        //validating the form data.
+        console.log("Button clicked");
+        console.log("Email:", email.current.value);
+        console.log("Password:", password.current.value);
+
+        // Validating the form data.
         const message = checkValidData(
             email.current.value,
             password.current.value
@@ -27,7 +36,7 @@ const Login = () => {
         if (message) return;
 
         if (!isSignIn) {
-            //sign up login
+            // Sign up logic
             createUserWithEmailAndPassword(
                 auth,
                 email.current.value,
@@ -36,8 +45,28 @@ const Login = () => {
                 .then((userCredential) => {
                     // Signed up
                     const user = userCredential.user;
-                    console.log(user);
-                    Navigate("/browse");
+                    updateProfile(user, {
+                        displayName: name.current.value,
+                        photoURL:
+                            "https://avatars.githubusercontent.com/u/100094915?v=4",
+                    })
+                        .then(() => {
+                            // Profile updated!
+                            const { uid, email, displayName, photoURL } = auth.currentUser;
+                                            dispatch(
+                                                addUser({
+                                                    uid: uid,
+                                                    email: email,
+                                                    displayName: displayName,
+                                                    photoURL: photoURL,
+                                                }))
+                            navigate("/browse");
+                        })
+                        .catch((error) => {
+                            // An error occurred
+                            dispatch()
+                            setErrorMessage(error.message);
+                        });
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -45,7 +74,7 @@ const Login = () => {
                     setErrorMessage(errorCode + "-" + errorMessage);
                 });
         } else {
-            // sign in login
+            // Sign in logic
             signInWithEmailAndPassword(
                 auth,
                 email.current.value,
@@ -54,13 +83,13 @@ const Login = () => {
                 .then((userCredential) => {
                     // Signed in
                     const user = userCredential.user;
-                    console.log(user)
-                    Navigate("/browse");
+                    console.log(user);
+                    navigate("/browse");
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
-                    setErrorMessage(errorCode + "-" + errorMessage)
+                    setErrorMessage(errorCode + "-" + errorMessage);
                 });
         }
     };
@@ -88,6 +117,7 @@ const Login = () => {
                 </h1>
                 {!isSignIn && (
                     <input
+                        ref={name}
                         type="text"
                         placeholder="Full Name"
                         className="p-2 my-2 w-full bg-gray-700/70 border-[0.5px] border-gray-400 rounded-sm"
