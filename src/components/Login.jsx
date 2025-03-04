@@ -21,10 +21,6 @@ const Login = () => {
     const password = useRef(null);
 
     const handleButtonClick = () => {
-        console.log("Button clicked");
-        console.log("Email:", email.current.value);
-        console.log("Password:", password.current.value);
-
         // Validating the form data.
         const message = checkValidData(
             email.current.value,
