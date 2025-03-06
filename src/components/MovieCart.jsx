@@ -11,7 +11,7 @@ const MovieCart = ({ posterPath }) => {
     }
 
     return (
-        <div className="w-32 ">
+        <div className="w-30 md:w-42 ">
             <img alt="Movie Image" 
             src={poster} />
         </div>

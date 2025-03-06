@@ -26,7 +26,7 @@ const GptSearchBar = () => {
 
     const handleGPTSearchClick = async () => {
         const now = Date.now();
-        if (now - lastRequestTime < 2500) {
+        if (now - lastRequestTime < 15000) {
             // 5-second cooldown
             console.log("Please wait before sending another request.");
             return;
@@ -41,7 +41,7 @@ const GptSearchBar = () => {
         // Call OpenRouter API to fetch suggestions for the search query.
         try {
             const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
-
+            console.log("API Key:", apiKey); // Ensure the API key is correctly logged
             const getResults = await fetch(
                 "https://openrouter.ai/api/v1/chat/completions",
                 {
@@ -65,11 +65,21 @@ const GptSearchBar = () => {
             );
 
             const gptResult = await getResults.json();
+            console.log("GPT Result:", gptResult);
 
             let movieNames = [];
             if (gptResult.choices && gptResult.choices.length > 0) {
                 const content = gptResult.choices[0].message.content;
                 movieNames = content.split(",").map((name) => name.trim());
+                console.log("Movie Names:", movieNames);
+            } else {
+                movieNames = [
+                    "Andaz Apna Apna",
+                    "Hera Pheri",
+                    "Chupke Chupke",
+                    "Phir Hera Pheri",
+                    "Jaane Bhi Do Yaaro",
+                ];
             }
 
             const promiseArray = movieNames.map((movie) =>
@@ -78,16 +88,18 @@ const GptSearchBar = () => {
 
             const tmdbResults = await Promise.all(promiseArray);
 
-            dispatch(addGptMovieResult({ movieNames, movieResults: tmdbResults }));
+            dispatch(
+                addGptMovieResult({ movieNames, movieResults: tmdbResults })
+            );
         } catch (error) {
             console.error("Error fetching GPT results:", error);
         }
     };
 
     return (
-        <div className="pt-[10%] flex justify-center items-center">
+        <div className="pt-40 md:pt-24 flex justify-center items-center">
             <form
-                className="w-1/2 bg-black rounded-lg grid grid-cols-12"
+                className="w-full md:w-1/2 bg-black rounded-lg grid grid-cols-12"
                 onSubmit={(e) => e.preventDefault()}
             >
                 <input
