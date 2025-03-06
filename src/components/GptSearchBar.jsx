@@ -1,15 +1,33 @@
 import React, { useRef } from "react";
 import lang from "../utilts/languageConstant";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { API_OPTIONS } from "../utilts/constants";
+import { addGptMovieResult } from "../utilts/gptSlice";
 
 const GptSearchBar = () => {
     const langkey = useSelector((store) => store.config.lang);
+    const dispatch = useDispatch();
     const searhTest = useRef(null);
     let lastRequestTime = 0;
 
+    // search movie in TMDB
+    const searchMovieInTMDB = async (movie) => {
+        const data = await fetch(
+            "https://api.themoviedb.org/3/search/movie?query=" +
+                movie +
+                "&include_adult=false&language=en-US&page=1",
+            API_OPTIONS
+        );
+
+        const json = await data.json();
+
+        return json.results;
+    };
+
     const handleGPTSearchClick = async () => {
         const now = Date.now();
-        if (now - lastRequestTime < 2500) {  // 5-second cooldown
+        if (now - lastRequestTime < 2500) {
+            // 5-second cooldown
             console.log("Please wait before sending another request.");
             return;
         }
@@ -23,35 +41,44 @@ const GptSearchBar = () => {
         // Call OpenRouter API to fetch suggestions for the search query.
         try {
             const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
-            // console.log("API Key:", apiKey); // Ensure the API key is correctly logged
 
-            const getResults = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${apiKey}`,
-                    // "HTTP-Referer": "https://your-site-url.com", // Optional. Site URL for rankings on openrouter.ai.
-                    // "X-Title": "Nefflix", // Optional. Site title for rankings on openrouter.ai.
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    model: "deepseek/deepseek-r1-distill-llama-70b:free",
-                    messages: [
-                        {
-                            role: "user",
-                            content: gptQuery
-                        }
-                    ]
-                })
-            });
+            const getResults = await fetch(
+                "https://openrouter.ai/api/v1/chat/completions",
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${apiKey}`,
+                        // "HTTP-Referer": "https://your-site-url.com", // Optional. Site URL for rankings on openrouter.ai.
+                        // "X-Title": "Nefflix", // Optional. Site title for rankings on openrouter.ai.
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        model: "deepseek/deepseek-r1:free",
+                        messages: [
+                            {
+                                role: "user",
+                                content: gptQuery,
+                            },
+                        ],
+                    }),
+                }
+            );
 
             const gptResult = await getResults.json();
-            console.log("GPT Result:", gptResult);
 
+            let movieNames = [];
             if (gptResult.choices && gptResult.choices.length > 0) {
-                console.log("GPT Choices:", gptResult.choices[0].message.content || "No responce received");
-            } else {
-                console.log("No choices found in GPT result.");
+                const content = gptResult.choices[0].message.content;
+                movieNames = content.split(",").map((name) => name.trim());
             }
+
+            const promiseArray = movieNames.map((movie) =>
+                searchMovieInTMDB(movie)
+            );
+
+            const tmdbResults = await Promise.all(promiseArray);
+
+            dispatch(addGptMovieResult({ movieNames, movieResults: tmdbResults }));
         } catch (error) {
             console.error("Error fetching GPT results:", error);
         }
