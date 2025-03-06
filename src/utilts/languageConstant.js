@@ -2,16 +2,22 @@
 const lang = {
     en: {
         search : "Search",
-        GptSearchPlaceholder: "What would you like to watch today?"
+        GptSearchPlaceholder: "What would you like to watch today?",
+        homeBtn: "Home Page",
+        signOutBtn: "(Sign Out)",
     },
     hindi: {
         search : "खोज",
-        GptSearchPlaceholder: "आज आप क्या देखना चाहेंगे?"
+        GptSearchPlaceholder: "आज आप क्या देखना चाहेंगे?",
+        homeBtn: "होम पेज",
+        signOutBtn: "(सिग्न आउट)",
     }
     ,
     spanish: {
         search : "Buscar",
-        GptSearchPlaceholder: "¿Qué te gustaría ver hoy?"
+        GptSearchPlaceholder: "¿Qué te gustaría ver hoy?",
+        homeBtn: "Página de inicio",
+        signOutBtn: "(Desconectar)",
     }
 }
 

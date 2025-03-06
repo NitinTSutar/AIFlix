@@ -7,11 +7,13 @@ import { addUser, removeUser } from "../utilts/userSlice";
 import { APP_LOGO, SUPPORTED_LANGUAGES } from "../utilts/constants";
 import { toggleGptSearchView } from "../utilts/gptSlice";
 import { changeLanguage } from "../utilts/configSlice";
+import lang from "../utilts/languageConstant";
 const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((store) => store.user);
     const showGptSeach = useSelector((store) => store.gpt.showGptSearch);
+     const langkey = useSelector((store) => store.config.lang);
 
     const handleSignOut = () => {
         signOut(auth)
@@ -77,7 +79,7 @@ const Header = () => {
                         className="py-2 px-4 m-2 text-black bg-white/50 hover:bg-white cursor-pointer rounded-md"
                         onClick={handleGptSearchClick}
                     >
-                        {showGptSeach ?   "Home Page" : "GPT Search"}
+                        {showGptSeach ?   lang[langkey].homeBtn : "GPT Search"}
                     </button>
                     <img
                         className="w-12 h-12 rounded-full"
@@ -90,7 +92,7 @@ const Header = () => {
                         onClick={handleSignOut}
                         className="bg-gray-500/50 text-white py-1 px-4 rounded-md hover:bg-red-600/80 cursor-pointer"
                     >
-                        (Sign Out)
+                        {lang[langkey].signOutBtn}
                     </button>
                 </div>
             )}
