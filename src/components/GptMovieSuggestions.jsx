@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import MovieList from "./MovieList";
 import LoadingShimmer from "./LoadingShimmer";
@@ -6,19 +5,9 @@ import LoadingShimmer from "./LoadingShimmer";
 const GptMovieSuggestions = () => {
     const { movieNames, movieResults } = useSelector((store) => store.gpt);
 
-    const [loading, setLoading] = useState(true);
+    const data = movieNames;
 
-    useEffect(() => {
-        if (movieNames && movieResults) {
-            setLoading(false);
-        }
-    }, [movieNames, movieResults]);
-
-    if (loading) {
-        return <LoadingShimmer />;
-    }
-
-    if (!movieNames) return null;
+    if (data === null) return <LoadingShimmer />;
 
     return (
         <div className="p-4 m-4 bg-black/90 text-white rounded-lg">
