@@ -41,7 +41,6 @@ const GptSearchBar = () => {
         // Call OpenRouter API to fetch suggestions for the search query.
         try {
             const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
-            console.log("API Key:", apiKey); // Ensure the API key is correctly logged
             const getResults = await fetch(
                 "https://openrouter.ai/api/v1/chat/completions",
                 {
@@ -65,13 +64,11 @@ const GptSearchBar = () => {
             );
 
             const gptResult = await getResults.json();
-            console.log("GPT Result:", gptResult);
 
             let movieNames = [];
             if (gptResult.choices && gptResult.choices.length > 0) {
                 const content = gptResult.choices[0].message.content;
                 movieNames = content.split(",").map((name) => name.trim());
-                console.log("Movie Names:", movieNames);
             } else {
                 movieNames = [
                     "Andaz Apna Apna",

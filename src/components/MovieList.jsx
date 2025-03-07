@@ -4,7 +4,7 @@ import MovieCart from "./MovieCart";
 const MovieList = ({ title, movies }) => {
 
     return (
-        movies && (<div className="px-6">
+        movies && (<div className="pl-6">
             <h1 className="text-lg md:text-3xl py-4 text-white">{title}</h1>
             <div className="flex overflow-x-scroll no-scrollbar">
                 <div className="flex gap-6 ">

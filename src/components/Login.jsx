@@ -9,7 +9,7 @@ import {
 import { auth } from "../utilts/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utilts/userSlice";
-import { BG_IMG, USER_IMG } from "../utilts/constants";
+import { BG_IMG, photoURL } from "../utilts/constants";
 
 const Login = () => {
     const [isSignIn, setIsSignIn] = useState(true);
@@ -42,7 +42,7 @@ const Login = () => {
                     const user = userCredential.user;
                     updateProfile(user, {
                         displayName: name.current.value,
-                        photoURL: USER_IMG,
+                        photoURL: photoURL, // Correct property name
                     })
                         .then(() => {
                             // Profile updated!
@@ -53,13 +53,12 @@ const Login = () => {
                                     uid: uid,
                                     email: email,
                                     displayName: displayName,
-                                    photoURL: photoURL,
+                                    photoURL: photoURL, // Correct property name
                                 })
                             );
                         })
                         .catch((error) => {
                             // An error occurred
-                            dispatch();
                             setErrorMessage(error.message);
                         });
                 })
