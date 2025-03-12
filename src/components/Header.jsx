@@ -85,9 +85,7 @@ const Header = () => {
                     </button>
                     <img
                         className="hidden md:inline w-12 h-12 rounded-md"
-                        src={
-                             user.photoURL
-                        }
+                        src={user.photoURL}
                         alt="User Avatar"
                     />
                     <button

@@ -59,8 +59,6 @@ const LoadingShimmer = () => {
                 <div className="h-34 w-24 sm:h-40 sm:w-28 md:h-46 md:w-34 shrink-0 rounded bg-gray-700/60"></div>
                 <div className="h-34 w-24 sm:h-40 sm:w-28 md:h-46 md:w-34 shrink-0 rounded bg-gray-700/60"></div>
             </div>
-            
-            
         </div>
     );
 };

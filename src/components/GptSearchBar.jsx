@@ -27,7 +27,7 @@ const GptSearchBar = () => {
     const handleGPTSearchClick = async () => {
         const now = Date.now();
         if (now - lastRequestTime < 15000) {
-            // 5-second cooldown
+            // 15-second cooldown
             console.log("Please wait before sending another request.");
             return;
         }
@@ -47,8 +47,6 @@ const GptSearchBar = () => {
                     method: "POST",
                     headers: {
                         Authorization: `Bearer ${apiKey}`,
-                        // "HTTP-Referer": "https://your-site-url.com", // Optional. Site URL for rankings on openrouter.ai.
-                        // "X-Title": "Nefflix", // Optional. Site title for rankings on openrouter.ai.
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
