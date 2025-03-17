@@ -24,7 +24,7 @@ const MovieList = ({ title, movies }) => {
                 <h1 className="text-lg md:text-3xl py-4 text-white">{title}</h1>
                 <div className="flex items-center">
                     <button
-                        className="absolute left-0 z-10 bg-black/50 text-white p-2 rounded-full"
+                        className="absolute left-0 z-10 bg-black/50 text-white p-2 rounded-full text-xl"
                         onClick={scrollLeft}
                     >
                         {'<'}
@@ -44,7 +44,7 @@ const MovieList = ({ title, movies }) => {
                         </div>
                     </div>
                     <button
-                        className="absolute right-0 z-10 bg-black/50 text-white p-2 rounded-full"
+                        className="absolute right-0 z-10 bg-black/50 text-white p-2 rounded-full text-xl"
                         onClick={scrollRight}
                     >
                         {'>'}
