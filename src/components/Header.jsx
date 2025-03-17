@@ -5,14 +5,14 @@ import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utilts/userSlice";
 import { APP_LOGO, SUPPORTED_LANGUAGES } from "../utilts/constants";
-import { toggleGptSearchView } from "../utilts/gptSlice";
+import { toggleAISearchView } from "../utilts/aiSlice";
 import { changeLanguage } from "../utilts/configSlice";
 import lang from "../utilts/languageConstant";
 const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((store) => store.user);
-    const showGptSeach = useSelector((store) => store.gpt.showGptSearch);
+    const showAISeach = useSelector((store) => store.AI.showAISearch);
     const langkey = useSelector((store) => store.config.lang);
 
     const handleSignOut = () => {
@@ -47,9 +47,9 @@ const Header = () => {
         return () => unsubscribe();
     }, []);
 
-    const handleGptSearchClick = () => {
-        // togle gpt search
-        dispatch(toggleGptSearchView());
+    const handleAISearchClick = () => {
+        // togle AI search
+        dispatch(toggleAISearchView());
     };
 
     const handleLanguageChange = (e) => {
@@ -61,9 +61,9 @@ const Header = () => {
             <img className="w-44 mx-auto md:mx-0" src={APP_LOGO} alt="logo" />
             {user && (
                 <div className="flex justify-between items-center gap-1 md:gap-3 pt-4 md:pt-0">
-                    {showGptSeach && (
+                    {showAISeach && (
                         <select
-                            className="text-sm md:text-lg rounded-lg p-2 m-2 bg-gray-900 text-white"
+                            className="text-sm md:text-lg rounded-lg p-2 m-2 bg-gray-900 text-white cursor-pointer"
                             onChange={handleLanguageChange}
                         >
                             {SUPPORTED_LANGUAGES.map((lang) => (
@@ -79,21 +79,23 @@ const Header = () => {
 
                     <button
                         className="text-sm absolute right-24 md:static md:text-lg py-2 px-4 m-2 text-black bg-white/70 hover:bg-white cursor-pointer rounded-md "
-                        onClick={handleGptSearchClick}
+                        onClick={handleAISearchClick}
                     >
-                        {showGptSeach ? lang[langkey].homeBtn : "GPT Search"}
+                        {showAISeach ? lang[langkey].homeBtn : "AI Search"}
                     </button>
-                    <img
-                        className="hidden md:inline w-12 h-12 rounded-md"
-                        src={user.photoURL}
-                        alt="User Avatar"
-                    />
-                    <button
-                        onClick={handleSignOut}
-                        className="bg-gray-500/50 text-xs md:text-md text-white py-1 px-4 rounded-md hover:bg-red-600/80 absolute right-2 md:static cursor-pointer"
-                    >
-                        {lang[langkey].signOutBtn}
-                    </button>
+                    <div >
+                        <img
+                            className="hidden md:inline w-8 h-8 rounded-md"
+                            src={user.photoURL}
+                            alt="User Avatar"
+                        />
+                        <button
+                            onClick={handleSignOut}
+                            className="bg-gray-500/50 text-xs md:text-md text-white py-1 px-4 rounded-md hover:bg-red-600/80 absolute right-2 md:static cursor-pointer"
+                        >
+                            {lang[langkey].signOutBtn}
+                        </button>
+                    </div>
                 </div>
             )}
         </div>

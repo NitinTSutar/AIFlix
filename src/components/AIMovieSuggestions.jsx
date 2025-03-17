@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import MovieList from "./MovieList";
 import LoadingShimmer from "./LoadingShimmer";
 
-const GptMovieSuggestions = () => {
-    const { movieNames, movieResults } = useSelector((store) => store.gpt);
+const AIMovieSuggestions = () => {
+    const { movieNames, movieResults } = useSelector((store) => store.AI);
 
     const data = movieNames;
 
@@ -24,4 +24,4 @@ const GptMovieSuggestions = () => {
     );
 };
 
-export default GptMovieSuggestions;
+export default AIMovieSuggestions;

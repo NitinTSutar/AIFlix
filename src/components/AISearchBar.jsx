@@ -2,9 +2,9 @@ import React, { useRef } from "react";
 import lang from "../utilts/languageConstant";
 import { useDispatch, useSelector } from "react-redux";
 import { API_OPTIONS } from "../utilts/constants";
-import { addGptMovieResult } from "../utilts/gptSlice";
+import { addAIMovieResult } from "../utilts/aiSlice";
 
-const GptSearchBar = () => {
+const AISearchBar = () => {
     const langkey = useSelector((store) => store.config.lang);
     const dispatch = useDispatch();
     const searhTest = useRef(null);
@@ -24,7 +24,7 @@ const GptSearchBar = () => {
         return json.results;
     };
 
-    const handleGPTSearchClick = async () => {
+    const handleAISearchClick = async () => {
         const now = Date.now();
         if (now - lastRequestTime < 15000) {
             // 15-second cooldown
@@ -33,7 +33,7 @@ const GptSearchBar = () => {
         }
         lastRequestTime = now;
 
-        const gptQuery =
+        const AIQuery =
             "Act as a Movie recommendation system and suggest some movies for the query (only give the movie names) " +
             searhTest.current.value +
             ". only give me names of 5 movies, comma separated like the example given ahead. Example result: Gadar, Sholay, Don, Golmaal, Koi Mil Gaya";
@@ -54,27 +54,19 @@ const GptSearchBar = () => {
                         messages: [
                             {
                                 role: "user",
-                                content: gptQuery,
+                                content: AIQuery,
                             },
                         ],
                     }),
                 }
             );
 
-            const gptResult = await getResults.json();
+            const AIResult = await getResults.json();
 
             let movieNames = [];
-            if (gptResult.choices && gptResult.choices.length > 0) {
-                const content = gptResult.choices[0].message.content;
+            if (AIResult.choices && AIResult.choices.length > 0) {
+                const content = AIResult.choices[0].message.content;
                 movieNames = content.split(",").map((name) => name.trim());
-            } else {
-                movieNames = [
-                    "Andaz Apna Apna",
-                    "Hera Pheri",
-                    "Chupke Chupke",
-                    "Phir Hera Pheri",
-                    "Jaane Bhi Do Yaaro",
-                ];
             }
 
             const promiseArray = movieNames.map((movie) =>
@@ -84,10 +76,10 @@ const GptSearchBar = () => {
             const tmdbResults = await Promise.all(promiseArray);
 
             dispatch(
-                addGptMovieResult({ movieNames, movieResults: tmdbResults })
+                addAIMovieResult({ movieNames, movieResults: tmdbResults })
             );
         } catch (error) {
-            console.error("Error fetching GPT results:", error);
+            console.error("Error fetching AI results:", error);
         }
     };
 
@@ -101,11 +93,11 @@ const GptSearchBar = () => {
                     ref={searhTest}
                     type="text"
                     className="p-2 md:p-3 m-2 md:m-4 text-sm md:text-lg col-span-9 rounded-md bg-white"
-                    placeholder={lang[langkey].GptSearchPlaceholder}
+                    placeholder={lang[langkey].AISearchPlaceholder}
                 />
                 <button
                     className="text-sm md:text-lg p-2 px-2 md:py-2 md:px-4 m-2 md:m-4 col-span-3 bg-[#d9232e] text-white rounded-md"
-                    onClick={handleGPTSearchClick}
+                    onClick={handleAISearchClick}
                 >
                     {lang[langkey].search}
                 </button>
@@ -114,4 +106,4 @@ const GptSearchBar = () => {
     );
 };
 
-export default GptSearchBar;
+export default AISearchBar;

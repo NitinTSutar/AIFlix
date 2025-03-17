@@ -1,9 +1,9 @@
 import React from "react";
-import GptSearchBar from "./GptSearchBar";
-import GptMovieSuggestions from "./GptMovieSuggestions";
+import AISearchBar from "./AISearchBar";
+import AIMovieSuggestions from "./AIMovieSuggestions";
 import { BG_IMG } from "../utilts/constants";
 
-const GPTSearch = () => {
+const AISearch = () => {
     return (
         <>
             <div className="fixed -z-10">
@@ -14,11 +14,11 @@ const GPTSearch = () => {
                 />
             </div>
             <div className="">
-                <GptSearchBar />
-                <GptMovieSuggestions />
+                <AISearchBar />
+                <AIMovieSuggestions />
             </div>
         </>
     );
 };
 
-export default GPTSearch;
+export default AISearch;
