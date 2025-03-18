@@ -1,10 +1,13 @@
 {
+    "homepage": "https://NitinTSutar.github.io/Nefflix",
     "name": "nefflix",
     "private": true,
     "version": "0.0.0",
     "type": "module",
     "scripts": {
         "dev": "vite",
+        "predeploy" : "npm run build",
+        "deploy": "gh-pages -d build",
         "build": "vite build",
         "lint": "eslint .",
         "preview": "vite preview"
@@ -14,6 +17,7 @@
         "debounce": "^2.2.0",
         "dotenv": "^16.4.7",
         "firebase": "^11.4.0",
+        "gh-pages": "^6.3.0",
         "lodash.debounce": "^4.0.8",
         "openai": "^4.86.1",
         "react": "^19.0.0",
