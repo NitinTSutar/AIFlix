@@ -42,7 +42,6 @@ const AISearchBar = () => {
         // Call Gemini API to fetch suggestions for the search query.
 
         try {
-            console.log(import.meta.env.VITE_GEMINI_API_KEY)
             const genAI = new GoogleGenerativeAI(
                 import.meta.env.VITE_GEMINI_API_KEY
             );
