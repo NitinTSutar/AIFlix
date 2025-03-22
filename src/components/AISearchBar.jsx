@@ -3,6 +3,7 @@ import lang from "../utilts/languageConstant";
 import { useDispatch, useSelector } from "react-redux";
 import { API_OPTIONS } from "../utilts/constants";
 import { addAIMovieResult } from "../utilts/aiSlice";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const AISearchBar = () => {
     const langkey = useSelector((store) => store.config.lang);
@@ -26,7 +27,7 @@ const AISearchBar = () => {
 
     const handleAISearchClick = async () => {
         const now = Date.now();
-        if (now - lastRequestTime < 15000) {
+        if (now - lastRequestTime < 5000) {
             // 15-second cooldown
             console.log("Please wait before sending another request.");
             return;
@@ -38,35 +39,24 @@ const AISearchBar = () => {
             searhTest.current.value +
             ". only give me names of 5 movies, comma separated like the example given ahead. Example result: Gadar, Sholay, Don, Golmaal, Koi Mil Gaya";
 
-        // Call OpenRouter API to fetch suggestions for the search query.
+        // Call Gemini API to fetch suggestions for the search query.
         try {
-            const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
-            const getResults = await fetch(
-                "https://openrouter.ai/api/v1/chat/completions",
-                {
-                    method: "POST",
-                    headers: {
-                        Authorization: `Bearer ${apiKey}`,
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        model: "deepseek/deepseek-r1:free",
-                        messages: [
-                            {
-                                role: "user",
-                                content: AIQuery,
-                            },
-                        ],
-                    }),
-                }
+            const genAI = new GoogleGenerativeAI(
+                import.meta.env.VITE_GEMINI_API_KEY
             );
+            const model = genAI.getGenerativeModel({
+                model: "gemini-2.0-flash",
+            });
 
-            const AIResult = await getResults.json();
+            const result = await model.generateContent(AIQuery); // No need for `{ prompt: AIQuery }`
+
+            const response = await result.response; // Correct way to get response
+            const AIResult = response.text(); // Get text output
+            console.log(AIResult);
 
             let movieNames = [];
-            if (AIResult.choices && AIResult.choices.length > 0) {
-                const content = AIResult.choices[0].message.content;
-                movieNames = content.split(",").map((name) => name.trim());
+            if (AIResult) {
+                movieNames = AIResult.split(",").map((name) => name.trim());
             }
 
             const promiseArray = movieNames.map((movie) =>
