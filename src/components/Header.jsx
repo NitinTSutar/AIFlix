@@ -17,12 +17,15 @@ const Header = () => {
 
     const handleSignOut = () => {
         signOut(auth)
-            .then(() => {})
-            .catch(() => {
-                // An error happened.
+            .then(() => {
+                navigate("/");
+            })
+            .catch((error) => {
+                console.error("Error signing out: ", error);
                 navigate("/error");
             });
     };
+    
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
