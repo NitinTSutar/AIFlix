@@ -40,10 +40,13 @@ const AISearchBar = () => {
             ". only give me names of 5 movies, comma separated like the example given ahead. Example result: Gadar, Sholay, Don, Golmaal, Koi Mil Gaya";
 
         // Call Gemini API to fetch suggestions for the search query.
+
         try {
+            console.log(import.meta.env.VITE_GEMINI_API_KEY)
             const genAI = new GoogleGenerativeAI(
                 import.meta.env.VITE_GEMINI_API_KEY
             );
+            
             const model = genAI.getGenerativeModel({
                 model: "gemini-2.0-flash",
             });
