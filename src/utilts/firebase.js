@@ -11,11 +11,11 @@ import { getAuth } from "firebase/auth";
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
     authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
-    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+    projectId: "nefflix-76f46",
+    storageBucket: "nefflix-76f46.firebasestorage.app",
+    messagingSenderId: "964024548959",
+    appId: "1:964024548959:web:c25d680dc4a0ce7faae5ea",
+    measurementId: "G-ZC91HZL0D5",
 };
 
 // Initialize Firebase
