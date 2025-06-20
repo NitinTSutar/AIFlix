@@ -94,7 +94,7 @@ const Login = () => {
         <div>
             <Header />
             <div className="absolute">
-                <img className="h-dvh w-dvw " src={BG_IMG} alt="background" />
+                <img className="h-dvh w-dvw object-cover" src={BG_IMG} alt="background" />
             </div>
             <form
                 onSubmit={(e) => e.preventDefault()}
