@@ -94,7 +94,11 @@ const Login = () => {
         <div>
             <Header />
             <div className="absolute">
-                <img className="h-dvh w-dvw object-cover" src={BG_IMG} alt="background" />
+                <img
+                    className="h-dvh w-dvw object-cover"
+                    src={BG_IMG}
+                    alt="background"
+                />
             </div>
             <form
                 onSubmit={(e) => e.preventDefault()}
@@ -121,6 +125,7 @@ const Login = () => {
                     ref={password}
                     type="password"
                     placeholder="Password"
+                    autoComplete="current-password" 
                     className="p-2 my-2 w-full bg-gray-700/70 border-[0.5px] border-gray-400 rounded-sm"
                 />
                 <p className="text-red-600 text-lg py-2">{errorMessage}</p>
