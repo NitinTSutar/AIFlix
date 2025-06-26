@@ -16,6 +16,7 @@ export const API_OPTIONS = {
 };
 
 export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w500";
+export const NO_IMG_CDN_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoWcWg0E8pSjBNi0TtiZsqu8uD2PAr_K11DA&s"
 
 export const SUPPORTED_LANGUAGES = [
     { identifier: "en", name: "English" },

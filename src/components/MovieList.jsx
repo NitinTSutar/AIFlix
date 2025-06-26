@@ -35,10 +35,15 @@ const MovieList = ({ title, movies }) => {
                         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                     >
                         <div className="flex gap-6" >
+                            {/* {console.log(movies)} */}
                             {movies.map((movie) => (
                                 <MovieCart
                                     key={movie.id}
+                                    movieKey={movie.id}
                                     posterPath={movie.poster_path}
+                                    original_title={movie.title}
+                                    description={movie.overview}
+                                    avg_vote={movie.vote_average}
                                 />
                             ))}
                         </div>
