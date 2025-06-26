@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import lang from "../utilts/languageConstant";
 import { useDispatch, useSelector } from "react-redux";
 import { API_OPTIONS } from "../utilts/constants";
-import { addAIMovieResult } from "../utilts/aiSlice";
+import { addAIMovieResult, setAILoading } from "../utilts/aiSlice";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const AISearchBar = () => {
@@ -33,6 +33,7 @@ const AISearchBar = () => {
             return;
         }
         lastRequestTime = now;
+        dispatch(setAILoading(true));
 
         const AIQuery =
             "Act as a Movie recommendation system and suggest some movies for the query (only give the movie names) " +
@@ -50,11 +51,10 @@ const AISearchBar = () => {
                 model: "gemini-2.0-flash",
             });
 
-            const result = await model.generateContent(AIQuery); // No need for `{ prompt: AIQuery }`
+            const result = await model.generateContent(AIQuery); 
 
-            const response = await result.response; // Correct way to get response
-            const AIResult = response.text(); // Get text output
-            console.log(AIResult);
+            const response = await result.response; 
+            const AIResult = response.text(); 
 
             let movieNames = [];
             if (AIResult) {
@@ -67,10 +67,13 @@ const AISearchBar = () => {
 
             const tmdbResults = await Promise.all(promiseArray);
 
+            
             dispatch(
                 addAIMovieResult({ movieNames, movieResults: tmdbResults })
             );
+            
         } catch (error) {
+            dispatch(setAILoading(false));
             console.error("Error fetching AI results:", error);
         }
     };

@@ -6,19 +6,23 @@ const getSlice = createSlice({
         showAISearch: false,
         movieNames: null,
         movieResults: 0,
+        loading: false,
     },
     reducers: {
         toggleAISearchView: (state) => {
             state.showAISearch = !state.showAISearch;
         },
+        setAILoading: (state, action) =>{
+            state.loading = action.payload
+        },
         addAIMovieResult: (state, action) => {
-            const { movieNames, movieResults } = action.payload;
-            state.movieNames = movieNames;
-            state.movieResults = movieResults;
+            state.movieNames = action.payload.movieNames;
+            state.movieResults = action.payload.movieResults;
+            state.loading = false;
         },
     },
 });
 
-export const { toggleAISearchView, addAIMovieResult } = getSlice.actions;
+export const { toggleAISearchView, addAIMovieResult, setAILoading  } = getSlice.actions;
 
 export default getSlice.reducer;
