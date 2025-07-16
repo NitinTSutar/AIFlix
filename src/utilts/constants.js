@@ -10,13 +10,13 @@ export const API_OPTIONS = {
     method: "GET",
     headers: {
         accept: "application/json",
-        Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiMzQ0ODY2MTgyMWY2OGVkNGIxNzhjMjJjNzA3ZWI2ZSIsIm5iZiI6MTc0MTAxMTA3MC4wODcwMDAxLCJzdWIiOiI2N2M1Yjg3ZWEzMjc3YWI0YTFlNzdiOWYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.k-iHjCOfgYMfoGIdfMLe8vQJIw5vB_Ir16Igp8XQYgY",
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_BEARER_TOKEN}`,
     },
 };
 
 export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w500";
-export const NO_IMG_CDN_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoWcWg0E8pSjBNi0TtiZsqu8uD2PAr_K11DA&s"
+export const NO_IMG_CDN_URL =
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoWcWg0E8pSjBNi0TtiZsqu8uD2PAr_K11DA&s";
 
 export const SUPPORTED_LANGUAGES = [
     { identifier: "en", name: "English" },
